@@ -1,0 +1,27 @@
+server:
+  port: 8002
+
+
+spring:
+  application:
+    name: cloud-payment-service
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    url: jdbc:mysql://localhost:3306/db2019?useUnicode=true&characterEncoding=utf-8&useSSL=false
+    username: root
+    password: root
+
+
+mybatis:
+  mapperlocations: classpath:mapper/*.xml
+  type-aliases-package: com.atguigu.springcloud.entities
+
+eureka:
+  client:
+    register-with-eureka: true     #向eureka server注册中心注册
+    fetch-registry: true        #检索服务
+    service-url:
+      defaultZone: http://eureka7001.com:7001/eureka/,http://eureka7002.com:7002/eureka/    #设置与eureka server交互的地址查询服务和注册服务都需要依赖这个地址 
+  instance:
+    instance-id: payment8002  #指定注册进Eureka server的服务名
+    prefer-ip-address: true   #当鼠标悬停时，显示ip地址
