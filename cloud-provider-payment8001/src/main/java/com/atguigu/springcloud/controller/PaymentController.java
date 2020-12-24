@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.atguigu.springcloud.service.PaymentService;
 
 import javax.annotation.Resource;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author ZENG JIAN HUI
@@ -53,6 +54,17 @@ public class PaymentController {
     //用于自定义的负载均衡
     @GetMapping("/payment/serverport")
     public String getServerPort(){
+        return serverPort;
+    }
+
+    //测试超时时间
+    @GetMapping("/payment/feign/timeout")
+    public String paymentFeignTimeout(){
+        try {
+            TimeUnit.SECONDS.sleep(3);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         return serverPort;
     }
 }

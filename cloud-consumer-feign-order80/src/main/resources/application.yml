@@ -9,7 +9,19 @@ eureka:
     service-url:
       defaultZone: http://eureka7001.com:7001/eureka/,http://eureka7002.com:7002/eureka/    #设置与eureka server交互的地址查询服务和注册服务都需要依赖这个地址
 
+#设置feign客户端超时时间
+ribbon:
+  #指的是建立连接后从服务器读取到可用资源所用的最大时间。
+  ReadTimeout: 5000
+  #建立连接所用的最大时间。
+  ConnectionTimeout: 5000
+
 
 spring:
   application:
-    name: cloud-order-openfeign-service
+    name: cloud-config-openfeign-service
+
+logging:
+  level:
+  #feign以什么级别监控什么接口
+  com.atguigu.springcloud.service.PaymentFeignService: debug

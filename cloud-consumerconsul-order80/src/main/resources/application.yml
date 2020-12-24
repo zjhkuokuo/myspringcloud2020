@@ -3,7 +3,7 @@ server:
 
 spring:
   application:
-    name: consul-consumer-order
+    name: consul-consumer-config
   cloud:
     consul:
       host: localhost
