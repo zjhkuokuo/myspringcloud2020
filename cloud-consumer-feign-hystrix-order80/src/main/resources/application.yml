@@ -18,6 +18,11 @@ ribbon:
   #建立连接所用的最大时间。
   ConnectionTimeout: 5000
 
+
 spring:
   application:
     name: cloud-consumer-hystrix-payment
+
+feign:
+  hystrix:
+    enabled: true   #支持开启服务降级(主启动类加@EnableHystrix，测试时发现没加这个配置也可以实现降级)

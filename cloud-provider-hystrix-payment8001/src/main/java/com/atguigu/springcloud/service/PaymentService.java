@@ -1,8 +1,10 @@
 package com.atguigu.springcloud.service;
 
+import cn.hutool.core.util.IdUtil;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.concurrent.TimeUnit;
@@ -41,5 +43,24 @@ public class PaymentService {
     public String paymentInfo_TimeOutHandler(Integer id){
         return "线程池:" + Thread.currentThread().getName() + "\t 系统繁忙，请稍后再试。 \t id:" + id;
     }
+
+    //*****************服务熔断开始*****************
+    @HystrixCommand(fallbackMethod = "paymentCircuitBreaker_fallback",commandProperties = {
+            @HystrixProperty(name = "circuitBreaker.enabled",value = "true"),  //开启断路器
+            @HystrixProperty(name = "circuitBreaker.requestVolumeThreshold",value = "10"),  //如下时间范围内的请求次数
+            @HystrixProperty(name = "circuitBreaker.sleepWindowInMilliseconds",value = "10000"),    //时间范围
+            @HystrixProperty(name = "circuitBreaker.errorThresholdPercentage",value = "60")     //时间范围内请求次数的失败率，60%，达到就断路器开启
+    })
+    public String paymentCircuitBreaker(@PathVariable("id") Integer id){
+        if (id < 0 ){
+            throw  new RuntimeException("模拟异常，id不能为负数");
+        }
+        String uuid = IdUtil.simpleUUID();
+        return Thread.currentThread().getName() + "\t 调用成功，id：" + uuid;
+    }
+    public String paymentCircuitBreaker_fallback(@PathVariable("id") Integer id){
+        return "模拟服务熔断，当断路器开启时进行服务降级调用该方法。id：" + id;
+    }
+    //*****************服务熔断结束*****************
 
 }

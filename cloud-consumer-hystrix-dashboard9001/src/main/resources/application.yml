@@ -1,0 +1,4 @@
+server:
+  port: 9001    #仪表盘的访问地址：http://localhost:9001/hystrix
+                # 被监控的断路器地址写法加后缀hystrix.stream 如8001，http://localhost:8001/hystrix.stream
+                # 并且需要在被监控的主启动程序添加一段固定代码，详情见 PaymentHystrixMain8001
