@@ -1,0 +1,19 @@
+server:
+  port: 3344
+
+spring:
+  application:
+    name: cloud-config-center
+  cloud:
+    config:
+      server:
+        git:
+          uri: https://github.com/zjhkuokuo/git.git #github上仓库的地址
+          search-paths:   # 指定搜索目录
+            - git   #可以访问github上该仓库下的文件，需配合分支
+      label: master   #指定分支   比如：该仓库目录下有springcloud-config.yml，则 http://localhost:3344/master/springcloud-config.yml
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://eureka7001.com:7001/eureka/,http://eureka7002.com:7002/eureka/
