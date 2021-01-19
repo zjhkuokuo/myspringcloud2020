@@ -1,0 +1,32 @@
+server:
+  port: 9527
+
+
+spring:
+  application:
+    name: cloud-gateway
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true #开启从注册中心通过微服务名获取该微服务下所有的路由地址，实现动态路由
+      routes:     #可以配置多个路由进行网关覆盖
+        - id: payment_routh  #路由ID，随意但要求唯一
+#          uri: http://localhost:8001  #匹配后提供服务的路由地址，将会对该地址下指定的路径（Pat配置的地址）进行网关覆盖，只能访问该微服务地址下的路径，单一
+          uri: lb://CLOUD-PAYMENT-SERVICE #注意：这里的前缀'lb'，是固定写法，表示负载均衡，可以访问该微服务名下所有微服务地址的路径，多样
+          predicates:
+            - Path=/payment/get/**    #对该路径进行网关覆盖
+        - id: payment_routh_2   #路由ID，随意但要求唯一
+#          uri: http://localhost:8001    #匹配后提供服务的路由地址，将会对该地址下指定的路径（Pat配置的地址）进行网关覆盖
+          uri: lb://CLOUD-PAYMENT-SERVICE #固定写法：lb://服务名，lb固定，服务名表示注册在注册中心的服务名，该服务名下可能有多个微服务，从而实现动态路由
+          predicates:
+            - Path=/payment/serverport/**    #对该路径进行网关覆盖
+
+eureka:
+  client:
+    register-with-eureka: true     #向eureka server注册中心注册
+    fetch-registry: true        #检索服务
+    service-url:
+      defaultZone: http://eureka7001.com:7001/eureka/,http://eureka7002.com:7002/eureka/    #设置与eureka server交互的地址查询服务和注册服务都需要依赖这个地址 
+  instance:
+    hostname: cloud-gateway-service
