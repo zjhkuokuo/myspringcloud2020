@@ -12,8 +12,22 @@ spring:
           search-paths:   # 指定搜索目录
             - git   #可以访问github上该仓库下的文件，需配合分支
       label: master   #指定分支   比如：该仓库目录下有springcloud-config.yml，则 http://localhost:3344/master/springcloud-config.yml
+# rabbitmq相关配置
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
 
 eureka:
   client:
     service-url:
       defaultZone: http://eureka7001.com:7001/eureka/,http://eureka7002.com:7002/eureka/
+
+management:   #刷新所有暴露的客户端，使用 bus/refresh
+  endpoints:
+    web:
+      exposure:
+        include: 'bus-refresh'
+#刷新:curl -X POST "http://localhost:3344/actuator/bus-refresh",一次刷新，处处生效
+#定向刷新：curl -X POST "http://localhost:3344/actuator/bus-refresh/config-client:3355"   只刷新3355
