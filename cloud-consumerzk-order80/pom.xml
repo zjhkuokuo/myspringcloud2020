@@ -12,6 +12,7 @@
     <artifactId>cloud-consumerzk-order80</artifactId>
 
     <dependencies>
+
         <!-- 整合zookeeper时出现版本冲突，排除自带的zookeeper，引入与自己版本符合的zookeeper -->
         <dependency>
             <groupId>org.springframework.cloud</groupId>

@@ -27,7 +27,8 @@ import java.util.List;
 public class OrderController {
 
 //    private static final String PAYMENT_URL = "http://localhost:8001";    //单机版
-    //集群版，注意：只需填写加入Eureka Server的服务名（该服务名下可能有多个微服务提供者），同时在配置进容器中的RestTemplate上加注解@LoadBalanced 即可实现负载均衡
+    //集群版，注意：只需填写加入Eureka Server的服务名（该服务名下可能有多个微服务提供者），同时在配置进容器中的RestTemplate()上加注解@LoadBalanced 即可实现负载均衡
+    //此时的访问服务提供者的地址为：http://localhost/*  如：http://localhost/consumer/payment/serverport
     private static final String PAYMENT_URL = "http://cloud-payment-service";
 
     @Resource
@@ -62,5 +63,11 @@ public class OrderController {
         ServiceInstance instance = myLoadBalance.getInstance(instances);
         URI uri = instance.getUri();
         return restTemplate.getForObject(uri + "/payment/serverport",String.class);
+    }
+
+    @GetMapping("/consumer/payment/zipkin")
+    public String paymentZipkin() {
+        String result = restTemplate.getForObject("http://localhost:8001" + "/payment/zipkin/", String.class);
+        return result;
     }
 }
