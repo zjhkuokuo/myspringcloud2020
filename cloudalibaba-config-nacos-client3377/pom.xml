@@ -9,10 +9,14 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>cloudalibaba-consumer-nacos-order83</artifactId>
+    <artifactId>cloudalibaba-config-nacos-client3377</artifactId>
 
     <dependencies>
-
+        <!-- springcloud-alibaba nacos配置中心 -->
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
+        </dependency>
         <!-- springcloud-alibaba nacos服务注册与发现 -->
         <dependency>
             <groupId>com.alibaba.cloud</groupId>
