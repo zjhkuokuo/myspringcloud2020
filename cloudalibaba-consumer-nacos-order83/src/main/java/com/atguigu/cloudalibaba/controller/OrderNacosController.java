@@ -1,7 +1,7 @@
 package com.atguigu.cloudalibaba.controller;
 
-import lombok.Value;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,17 +18,15 @@ import javax.annotation.Resource;
 @Slf4j
 public class OrderNacosController {
 
-    public static final String SERVER_URL="http://nacos-payment-provider";
-
     @Resource
     private RestTemplate restTemplate;
 
-//    引入配置文件中已经配置好的集群地址，可以实现代码配置的分离，但是不知道为何报错，配置也没起作用
-//    @Value("${service-url.nacos-user-service}")
-//    private String  serverURL;
+//    引入配置文件中已经配置好的集群地址，实现代码配置的分离
+    @Value("${service-url.nacos-user-service}")
+    private String  serverURL;
 
     @GetMapping("/consumer/payment/nacos/{id}")
     public String getPayment(@PathVariable("id") Integer id){
-        return restTemplate.getForObject(SERVER_URL+"/payment/nacos/"+id,String.class);
+        return restTemplate.getForObject(serverURL+"/payment/nacos/"+id,String.class);
     }
 }
