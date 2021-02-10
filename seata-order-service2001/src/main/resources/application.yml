@@ -1,0 +1,31 @@
+server:
+  port: 8401
+
+spring:
+  application:
+    name: seata-order-service
+  cloud:
+    nacos:
+      discovery:
+        server-addr: localhost:8848   #配置Nacos地址
+    alibaba:
+      seata:
+        tx-service-group: myseata_tx_group    #该值与seata配置文件中的file.conf下的service自定义的值一致
+  #        server-addr: 192.168.184.131:1111   #配置Nacos地址,该地址为本机linux下的地址
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/seata_order
+    username: root
+    password: root
+
+feign:
+  hystrix:
+    enabled: false
+
+logging:
+  level:
+    io:
+      seata: info
+
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
